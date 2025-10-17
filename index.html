@@ -8,13 +8,20 @@
         body {
             margin: 0;
             padding: 0;
-            background: #000; /* Solid black background */
+            background: linear-gradient(45deg, #111, #222, #111, #333);
+            background-size: 400% 400%;
+            animation: glitch-bg 2s ease-in-out infinite alternate;
             font-family: 'Courier New', monospace;
             color: #fff;
             overflow: hidden;
             cursor: none; /* Remove cursor for unease */
         }
-        /* Static noise overlay (subtle for text clarity) */
+        @keyframes glitch-bg {
+            0% { background-position: 0% 50%; filter: hue-rotate(0deg) contrast(1.1); }
+            50% { background-position: 100% 50%; filter: hue-rotate(90deg) contrast(1.3); }
+            100% { background-position: 0% 50%; filter: hue-rotate(180deg) contrast(1); }
+        }
+        /* Static noise overlay (less intense) */
         .noise {
             position: fixed;
             top: 0;
@@ -22,15 +29,15 @@
             width: 100%;
             height: 100%;
             background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect fill="%23fff" width="1" height="1" x="%(Math.random()*100).toFixed(0)" y="%(Math.random()*100).toFixed(0)"/></svg>') repeat;
-            opacity: 0.08; /* Reduced for black background */
+            opacity: 0.1; /* Reduced for text clarity */
             pointer-events: none;
-            animation: flicker 0.12s infinite;
+            animation: flicker 0.1s infinite;
         }
         @keyframes flicker {
-            0%, 100% { opacity: 0.08; }
-            50% { opacity: 0.12; }
+            0%, 100% { opacity: 0.1; }
+            50% { opacity: 0.15; }
         }
-        /* Crawling ants (subtle) */
+        /* Crawling ants (less intense) */
         .ants {
             position: fixed;
             top: 0;
@@ -41,8 +48,8 @@
                 45deg,
                 transparent,
                 transparent 2px,
-                rgba(255,0,0,0.02) 2px,
-                rgba(255,0,0,0.02) 4px
+                rgba(255,0,0,0.03) 2px,
+                rgba(255,0,0,0.03) 4px
             );
             animation: crawl 15s linear infinite;
         }
@@ -62,13 +69,13 @@
         }
         .string {
             position: absolute;
-            font-size: 20px; /* Clear and readable */
-            font-weight: bold;
-            color: #fff; /* Base for rainbow */
+            font-size: 20px; /* Larger for readability */
+            font-weight: bold; /* Bolder for clarity */
+            color: #fff; /* Base color for rainbow */
             white-space: nowrap;
-            text-shadow: 0 0 2px rgba(0,0,0,0.6); /* Contrast against black */
+            text-shadow: 0 0 2px rgba(0,0,0,0.5); /* Subtle shadow for contrast */
             animation: move-random linear infinite, rainbow 3s linear infinite;
-            opacity: 0.85; /* High opacity for clarity */
+            opacity: 0.8; /* High opacity for readability */
         }
         /* Rainbow color animation */
         @keyframes rainbow {
@@ -89,9 +96,9 @@
         }
         /* Hidden special string */
         .special-string {
-            opacity: 0.75 !important; /* Readable but subtle */
-            font-size: 18px !important; /* Slightly smaller */
-            animation-duration: 12s !important, 5s linear infinite !important; /* Slower rainbow */
+            opacity: 0.7 !important; /* Slightly less visible but readable */
+            font-size: 18px !important; /* Slightly smaller to blend */
+            animation-duration: 12s !important, 5s linear infinite !important; /* Slower rainbow cycle */
         }
         /* Awkward central text */
         .center-text {
@@ -104,7 +111,7 @@
             animation: twitch 0.4s infinite alternate;
             letter-spacing: -3px;
             opacity: 0.7;
-            filter: blur(0.5px);
+            filter: blur(0.5px); /* Reduced blur */
             text-shadow: 0 0 8px rgba(255,0,0,0.4);
         }
         @keyframes twitch {
