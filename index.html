@@ -21,7 +21,7 @@
             50% { background-position: 100% 50%; filter: hue-rotate(180deg) contrast(1.8); }
             100% { background-position: 0% 50%; filter: hue-rotate(360deg) contrast(0.9); }
         }
-        /* Static noise overlay (more intense) */
+        /* Static noise overlay */
         .noise {
             position: fixed;
             top: 0;
@@ -29,7 +29,7 @@
             width: 100%;
             height: 100%;
             background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect fill="%23fff" width="1" height="1" x="%(Math.random()*100).toFixed(0)" y="%(Math.random()*100).toFixed(0)"/></svg>') repeat;
-            opacity: 0.15; /* Increased for chaos */
+            opacity: 0.15;
             pointer-events: none;
             animation: flicker 0.08s infinite;
         }
@@ -37,7 +37,7 @@
             0%, 100% { opacity: 0.15; }
             50% { opacity: 0.25; }
         }
-        /* Crawling ants (more aggressive) */
+        /* Crawling ants */
         .ants {
             position: fixed;
             top: 0;
@@ -45,7 +45,7 @@
             width: 100%;
             height: 100%;
             background: repeating-linear-gradient(
-                45deg, /* Diagonal for extra disorientation */
+                45deg,
                 transparent,
                 transparent 2px,
                 rgba(255,0,0,0.05) 2px,
@@ -69,20 +69,25 @@
         }
         .string {
             position: absolute;
-            font-size: 16px; /* Smaller for clutter */
+            font-size: 16px;
             font-weight: normal;
-            color: rgba(255,255,255,0.4); /* Lower opacity */
+            color: #fff; /* Base color for rainbow effect */
             white-space: nowrap;
-            text-shadow: 0 0 3px rgba(0,0,0,0.7), 0 0 5px rgba(255,255,255,0.2); /* Glitchy effect */
-            animation: move-random linear infinite;
-            filter: blur(0.5px); /* Slight blur for unreadability */
+            text-shadow: 0 0 3px rgba(0,0,0,0.7), 0 0 5px rgba(255,255,255,0.3);
+            animation: move-random linear infinite, rainbow 3s linear infinite; /* Added rainbow animation */
+            filter: blur(0.3px); /* Reduced blur for slight readability */
+            opacity: 0.5; /* Slightly increased for visibility */
+        }
+        /* Rainbow color animation */
+        @keyframes rainbow {
+            0% { filter: hue-rotate(0deg); }
+            100% { filter: hue-rotate(360deg); }
         }
         /* Random movement directions */
         @keyframes move-random {
             0% { transform: translate(var(--start-x), var(--start-y)); }
             100% { transform: translate(var(--end-x), var(--end-y)); }
         }
-        /* Randomize positions, directions, and speeds */
         .string {
             --start-x: calc(100vw * var(--rand-x));
             --start-y: calc(100vh * var(--rand-y));
@@ -90,13 +95,13 @@
             --end-y: calc(100vh * var(--end-y-dir));
             animation-duration: calc(10s + var(--rand-speed) * 15s);
         }
-        /* Hidden special string - blends in */
+        /* Hidden special string */
         .special-string {
-            color: rgba(255,255,255,0.35) !important; /* Very subtle */
+            opacity: 0.45 !important; /* Slightly less visible */
             font-size: 15px !important;
-            animation-duration: 12s !important; /* Medium speed */
+            animation-duration: 12s !important, 5s linear infinite !important; /* Slower rainbow cycle */
         }
-        /* Awkward central text - more distorted */
+        /* Awkward central text */
         .center-text {
             position: absolute;
             top: 50%;
@@ -107,7 +112,7 @@
             animation: twitch 0.4s infinite alternate;
             letter-spacing: -3px;
             opacity: 0.6;
-            filter: blur(1px); /* Unreadable */
+            filter: blur(1px);
             text-shadow: 0 0 10px rgba(255,0,0,0.5);
         }
         @keyframes twitch {
@@ -133,16 +138,15 @@
             return result;
         }
 
-        // Create 50 chaotic moving strings (increased for chaos)
+        // Create 50 chaotic moving strings
         const container = document.getElementById('stringsContainer');
         for (let i = 0; i < 50; i++) {
             const div = document.createElement('div');
             div.className = 'string';
             div.textContent = generateRandomString(Math.floor(Math.random() * 12) + 6);
-            // Random start/end positions and speed
             div.style.setProperty('--rand-x', Math.random());
             div.style.setProperty('--rand-y', Math.random());
-            div.style.setProperty('--end-x-dir', Math.random() * 2 - 1); // -1 to 1 for direction
+            div.style.setProperty('--end-x-dir', Math.random() * 2 - 1);
             div.style.setProperty('--end-y-dir', Math.random() * 2 - 1);
             div.style.setProperty('--rand-speed', Math.random());
             div.style.animationDelay = Math.random() * 5 + 's';
@@ -157,11 +161,11 @@
         specialDiv.style.setProperty('--rand-y', Math.random());
         specialDiv.style.setProperty('--end-x-dir', Math.random() * 2 - 1);
         specialDiv.style.setProperty('--end-y-dir', Math.random() * 2 - 1);
-        specialDiv.style.setProperty('--rand-speed', 0.3); // Medium speed
+        specialDiv.style.setProperty('--rand-speed', 0.3);
         specialDiv.style.animationDelay = Math.random() * 5 + 's';
         container.appendChild(specialDiv);
 
-        // Refresh strings every 20s for endless chaos
+        // Refresh strings every 20s
         setInterval(() => {
             const strings = container.querySelectorAll('.string');
             strings.forEach((str, index) => {
